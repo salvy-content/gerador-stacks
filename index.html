@@ -751,7 +751,7 @@ class Component extends DCLogic {
       const withNudge = [];
       r[1].forEach(function (t) {
         withNudge.push(t);
-        if (isCarrier(t)) withNudge.push("\u0000manda um Salvy");
+        if (isCarrier(t)) withNudge.push("\u0000Manda um Salvy");
       });
       const chips = withNudge.map((t0) => {
         const nudge = t0.charAt(0) === "\u0000";

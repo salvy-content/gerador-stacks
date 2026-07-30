@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; }
+  body { background: #FBFAF9; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #232323; text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: #181410; }
+  input::placeholder { color: #a8a3a3; }
+</style>
+</helmet>
+
+<div style="font-family: Inter, sans-serif; color: #181410; background: #FBFAF9; min-height: 100vh; display: flex; flex-direction: column;">
+
+  <header style="background: #FFFFFF; border-bottom: 1px solid #EDE9E2; padding: 16px clamp(16px, 4vw, 32px);">
+    <div style="max-width: 1320px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 24px;">
+      <a href="https://salvy.com.br" target="_blank" style="display: block; text-decoration: none;">
+        <img src="./assets/logo-salvy.svg" alt="Salvy" style="height: 24px; width: auto; display: block;" />
+      </a>
+      <a href="https://salvy.com.br?utm_source=gerador-de-stack&utm_medium=header" target="_blank" style="text-decoration: none; font-family: Poppins, sans-serif; font-weight: 500; font-size: 14px; color: #FFFFFF; background: #232323; border: 1px solid #232323; border-radius: 999px; padding: 11px 22px; transition: box-shadow 200ms cubic-bezier(0.16,1,0.3,1);" style-hover="box-shadow: -8px -8px 20px #ffffff, 8px 8px 20px rgba(24,20,16,0.16); color: #FFFFFF;">Conheça a Salvy</a>
+    </div>
+  </header>
+
+  <div style="flex: 1; padding: clamp(24px, 5vw, 40px) clamp(16px, 4vw, 32px) 56px;">
+  <div style="max-width: 1320px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px;">
+
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+      <h1 style="font-family: Poppins, sans-serif; font-weight: 600; font-size: clamp(28px, 6vw, 40px); line-height: 1.15; letter-spacing: -0.02em; margin: 0; display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">Monte sua stack <img src="./assets/icon-hand.svg" alt="" style="height: 0.85em; width: auto; display: block;" /></h1>
+      <p style="font-size: 17px; line-height: 1.5; color: #4f4a4a; margin: 0; max-width: 52ch;">A stack da sua empresa, pronta pra compartilhar.</p>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+      <sc-for list="{{ areas }}" as="a" hint-placeholder-count="7">
+        <button onClick="{{ a.select }}" style="font-family: Poppins, sans-serif; font-weight: 500; font-size: 15px; padding: 11px 22px; border-radius: 999px; cursor: pointer; border: 1px solid transparent; transition: box-shadow 200ms cubic-bezier(0.16,1,0.3,1); background: {{ a.bg }}; color: {{ a.fg }}; box-shadow: {{ a.shadow }};" style-hover="box-shadow: -8px -8px 20px #ffffff, 8px 8px 20px rgba(24,20,16,0.10);">{{ a.name }}</button>
+      </sc-for>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 32px; align-items: start;">
+
+      <div style="display: flex; flex-direction: column; gap: 14px;">
+        <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 12px;">
+          <h2 style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #807a7a; margin: 0;">Camadas</h2>
+          <button onClick="{{ reset }}" style="border: none; background: none; padding: 0; cursor: pointer; font-family: Inter, sans-serif; font-size: 13px; font-weight: 500; color: #807a7a; text-decoration: underline; text-underline-offset: 2px;">restaurar sugestão</button>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 14px; background: #FFFFFF; border-radius: 12px; padding: 18px; box-shadow: -8px -8px 16px rgba(255,255,255,0.9), 8px 8px 16px rgba(24,20,16,0.06);">
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="height: 44px; min-width: 88px; display: flex; align-items: center; justify-content: center; background: #F7F5F2; border-radius: 8px; padding: 0 12px;">
+                <sc-if value="{{ hasCompany }}" hint-placeholder-val="{{ false }}">
+                  {{ companyPreview }}
+                </sc-if>
+                <sc-if value="{{ noCompany }}" hint-placeholder-val="{{ true }}">
+                  <span style="font-size: 12px; font-weight: 500; color: #a8a3a3;">sem logo</span>
+                </sc-if>
+              </div>
+              <div style="display: flex; flex-direction: column; gap: 4px;">
+                <span style="font-size: 13px; font-weight: 500; color: #807a7a;">Logo da sua empresa</span>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <label style="cursor: pointer; font-size: 13px; font-weight: 500; color: #181410; text-decoration: underline; text-underline-offset: 2px;">
+                    enviar PNG ou SVG
+                    <input type="file" accept="image/*" onChange="{{ onCompany }}" style="display: none;" />
+                  </label>
+                  <button onClick="{{ removeCompany }}" style="border: none; background: none; padding: 0; cursor: pointer; font-size: 13px; font-weight: 500; color: #a8a3a3;">remover</button>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 6px;">
+              <sc-for list="{{ formats }}" as="f" hint-placeholder-count="4">
+                <button onClick="{{ f.select }}" style="font-family: Poppins, sans-serif; font-weight: 500; font-size: 13px; padding: 8px 14px; border-radius: 999px; cursor: pointer; border: 1px solid #dad8d8; background: {{ f.bg }}; color: {{ f.fg }};">{{ f.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          <label style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-size: 13px; font-weight: 500; color: #807a7a;">Título</span>
+            <input value="{{ title }}" onChange="{{ onTitle }}" placeholder="Stack de Vendas" style="border: 1px solid #dad8d8; border-radius: 999px; padding: 11px 18px; font-size: 16px; font-family: Poppins, sans-serif; font-weight: 500; color: #181410; outline: none; background: #FBFAF9;" />
+          </label>
+          <label style="display: flex; flex-direction: column; gap: 6px;">
+            <span style="font-size: 13px; font-weight: 500; color: #807a7a;">Subtítulo</span>
+            <input value="{{ subtitle }}" onChange="{{ onSubtitle }}" placeholder="As ferramentas que fazem o time andar" style="border: 1px solid #dad8d8; border-radius: 999px; padding: 11px 18px; font-size: 15px; font-family: Inter, sans-serif; color: #181410; outline: none; background: #FBFAF9;" />
+          </label>
+        </div>
+
+        <sc-for list="{{ layers }}" as="layer" hint-placeholder-count="5">
+          <div style="background: #FFFFFF; border-radius: 12px; padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 12px; box-shadow: -8px -8px 16px rgba(255,255,255,0.9), 8px 8px 16px rgba(24,20,16,0.06);">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+              <span style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 16px;">{{ layer.name }}</span>
+              <button onClick="{{ layer.removeLayer }}" title="Remover camada" style="border: none; background: none; padding: 0; cursor: pointer; font-size: 13px; font-weight: 500; color: #a8a3a3;">remover</button>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <sc-for list="{{ layer.tools }}" as="tool" hint-placeholder-count="0">
+                <span style="display: inline-flex; align-items: center; gap: 8px; background: #F7F5F2; border: 1px solid #EDE9E2; border-radius: 999px; padding: 7px 12px 7px 13px; font-size: 14px; font-weight: 500;">
+                  <sc-if value="{{ tool.hasLogo }}" hint-placeholder-val="{{ false }}">
+                    {{ tool.icon }}
+                  </sc-if>
+                  {{ tool.name }}
+                  <sc-if value="{{ tool.needsLogo }}" hint-placeholder-val="{{ false }}">
+                    <label title="Enviar o logo oficial (PNG ou SVG) — a gente deixa preto" style="display: inline-flex; align-items: center; cursor: pointer; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: #807a7a; background: #FFFFFF; border: 1px solid #EDE9E2; border-radius: 999px; padding: 2px 8px;">
+                      logo
+                      <input type="file" accept="image/*" onChange="{{ tool.onLogo }}" style="display: none;" />
+                    </label>
+                  </sc-if>
+                  <button onClick="{{ tool.remove }}" title="Remover" style="border: none; background: none; padding: 0 0 0 2px; cursor: pointer; color: #a8a3a3; font-size: 15px; line-height: 1;">×</button>
+                </span>
+              </sc-for>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <input list="tool-suggestions" value="{{ layer.draft }}" onChange="{{ layer.onDraft }}" onKeyDown="{{ layer.onKey }}" placeholder="Adicionar ferramenta..." style="flex: 1; border: 1px solid #dad8d8; border-radius: 999px; padding: 10px 18px; font-size: 14px; font-family: Inter, sans-serif; outline: none; background: #FBFAF9; color: #181410;" />
+              <button onClick="{{ layer.onAdd }}" style="border: 1px solid #232323; background: #232323; color: #FFFFFF; border-radius: 999px; padding: 0 20px; cursor: pointer; font-size: 14px; font-weight: 500; font-family: Poppins, sans-serif;">Add</button>
+            </div>
+          </div>
+        </sc-for>
+
+        <div style="display: flex; gap: 8px; background: #F4F2EE; border-radius: 12px; padding: 14px 16px;">
+          <input value="{{ newLayer }}" onChange="{{ onNewLayer }}" onKeyDown="{{ onNewLayerKey }}" placeholder="Nova camada (ex: Segurança)" style="flex: 1; border: 1px solid #dad8d8; border-radius: 999px; padding: 10px 18px; font-size: 14px; font-family: Inter, sans-serif; outline: none; background: #FFFFFF; color: #181410;" />
+          <button onClick="{{ addLayer }}" style="border: 1px solid #dad8d8; background: #FFFFFF; color: #181410; border-radius: 999px; padding: 0 20px; cursor: pointer; font-size: 14px; font-weight: 500; font-family: Poppins, sans-serif;">Criar</button>
+        </div>
+
+        <datalist id="tool-suggestions">
+          <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="0">
+            <option value="{{ s }}"></option>
+          </sc-for>
+        </datalist>
+      </div>
+
+      <div style="position: sticky; top: 24px; display: flex; flex-direction: column; gap: 14px;">
+        <h2 style="font-family: Poppins, sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #807a7a; margin: 0;">Preview</h2>
+        <div style="background: #FFFFFF; border-radius: 16px; padding: 12px; box-shadow: -8px -8px 20px #ffffff, 8px 8px 20px rgba(24,20,16,0.10);">
+          <canvas ref="{{ canvasRef }}" style="width: 100%; display: block; border-radius: 8px;"></canvas>
+        </div>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <button onClick="{{ download }}" style="flex: 1; border: 1px solid #232323; background: #232323; color: #FFFFFF; border-radius: 999px; padding: 14px; cursor: pointer; font-family: Poppins, sans-serif; font-weight: 500; font-size: 15px; transition: box-shadow 200ms cubic-bezier(0.16,1,0.3,1);" style-hover="box-shadow: -8px -8px 20px #ffffff, 8px 8px 20px rgba(24,20,16,0.16);">Baixar PNG</button>
+          <button onClick="{{ copy }}" style="border: 1px solid #dad8d8; background: #FFFFFF; color: #181410; border-radius: 999px; padding: 14px 20px; cursor: pointer; font-family: Poppins, sans-serif; font-weight: 500; font-size: 15px;" style-hover="box-shadow: -8px -8px 20px #ffffff, 8px 8px 20px rgba(24,20,16,0.10);">Copiar</button>
+          <button onClick="{{ share }}" style="border: 1px solid #dad8d8; background: #FFFFFF; color: #181410; border-radius: 999px; padding: 14px 20px; cursor: pointer; font-family: Poppins, sans-serif; font-weight: 500; font-size: 15px;" style-hover="box-shadow: -8px -8px 20px #ffffff, 8px 8px 20px rgba(24,20,16,0.10);">Copiar legenda</button>
+        </div>
+        <p style="font-size: 13px; color: #807a7a; margin: 0; min-height: 18px;">{{ toast }}</p>
+        <sc-if value="{{ showCaption }}" hint-placeholder-val="{{ false }}">
+          <div style="display: flex; flex-direction: column; gap: 8px; background: #FFFFFF; border-radius: 12px; padding: 14px 16px; box-shadow: -8px -8px 16px rgba(255,255,255,0.9), 8px 8px 16px rgba(24,20,16,0.06);">
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
+              <span style="font-size: 13px; font-weight: 500; color: #807a7a;">Legenda do post</span>
+              <button onClick="{{ hideCaption }}" style="border: none; background: none; padding: 0; cursor: pointer; font-size: 13px; font-weight: 500; color: #a8a3a3;">fechar</button>
+            </div>
+            <textarea readonly rows="9" value="{{ captionText }}" style="width: 100%; border: 1px solid #dad8d8; border-radius: 16px; padding: 12px 16px; font-family: Inter, sans-serif; font-size: 14px; line-height: 1.5; color: #181410; background: #FBFAF9; resize: vertical; outline: none;"></textarea>
+          </div>
+        </sc-if>
+      </div>
+
+    </div>
+  </div>
+  </div>
+
+  <footer style="background: #FFFFFF; border-top: 1px solid #EDE9E2; padding: 24px clamp(16px, 4vw, 32px);">
+    <div style="max-width: 1320px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
+      <a href="https://salvy.com.br?utm_source=gerador-de-stack&utm_medium=footer" target="_blank" style="font-family: Poppins, sans-serif; font-weight: 500; font-size: 15px; color: #181410;">salvy.com.br</a>
+      <span style="font-size: 13px; color: #807a7a;">© Salvy 2026 All Rights Reserved.</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;footerTagline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;A operadora dos times conectados: dados, ligações e WhatsApp Business inclusos.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;footerLine2&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Chip ou eSIM, sem burocracia, sem fidelidade.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;site&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;salvy.com.br&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;defaultSubtitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;As ferramentas que fazem o time andar&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const CATALOG = {
+  "Salvy":"__salvy","Slack":"slack","Google Meet":"googlemeet","Zoom":"zoom","Notion":"notion","Linear":"linear",
+  "Jira":"jira","Asana":"asana","Trello":"trello","ClickUp":"clickup","Confluence":"confluence","Miro":"miro",
+  "Loom":"loom","Airtable":"airtable","Figma":"figma","Canva":"canva","Framer":"framer","Webflow":"webflow",
+  "WordPress":"wordpress","HubSpot":"hubspot","Salesforce":"salesforce","Pipedrive":"pipedrive","Intercom":"intercom",
+  "Zendesk":"zendesk","Freshdesk":"freshdesk","Twilio":"twilio","Resend":"resend","Mailchimp":"mailchimp",
+  "Brevo":"brevo","Customer.io":"customerio","Typeform":"typeform","Calendly":"calendly","DocuSign":"docusign",
+  "Google Analytics":"googleanalytics","PostHog":"posthog","Amplitude":"amplitude","Mixpanel":"mixpanel",
+  "Metabase":"metabase","Looker":"looker","Segment":"twilio","Snowflake":"snowflake","dbt":"dbt",
+  "PostgreSQL":"postgresql","MongoDB":"mongodb","Redis":"redis","Docker":"docker","Kubernetes":"kubernetes",
+  "Terraform":"terraform","Cloudflare":"cloudflare","Netlify":"netlify","Vercel":"vercel","Supabase":"supabase",
+  "AWS":"amazonwebservices","Google Cloud":"googlecloud","GitHub":"github","GitHub Actions":"githubactions",
+  "GitLab":"gitlab","Sentry":"sentry","Datadog":"datadog","Grafana":"grafana","New Relic":"newrelic",
+  "PagerDuty":"pagerduty","LaunchDarkly":"launchdarkly","Storybook":"storybook","Playwright":"playwright",
+  "Cypress":"cypress","Next.js":"nextdotjs","React":"react","Tailwind":"tailwindcss","TypeScript":"typescript",
+  "Clerk":"clerk","Auth0":"auth0","Stripe":"stripe","n8n":"n8n","Zapier":"zapier","Claude":"claude",
+  "Claude Code":"claude","ChatGPT":"openai","Gemini":"googlegemini","Cursor":"cursor","Perplexity":"perplexity",
+  "WhatsApp":"whatsapp","Discord":"discord","Telegram":"telegram","Gmail":"gmail","Google Drive":"googledrive",
+  "Google Workspace":"google","Microsoft 365":"microsoft","Dropbox":"dropbox","Hotjar":"hotjar",
+  "Nubank":"nubank","Mercado Pago":"mercadopago","Asaas":"","iugu":"","Kamino":"","Conta Simples":"","Onfly":"",
+  "NFE.io":"","BigDataCorp":"","NextCode":"","Comp":"","Caju":"","Flash":"","Swile":"swile","Gupy":"","Sólides":"",
+  "CloudHumans":"","Elephant.ai":"","Driva":"","ZapSign":"","Omie":"","Pipefy":"","RD Station":"","Unleash":"",
+  "Apollo":"","Gong":"","Aircall":"","Knock":"","Vitally":"","Chatwoot":"","QuickBooks":"quickbooks","Make":"","Sankhya":""
+};
+
+const SEED = {
+  "Geral": [
+    ["Comunicação", ["Slack", "Google Meet"]],
+    ["Gestão", ["Notion", "Linear"]],
+    ["Financeiro", ["Conta Simples", "Kamino"]],
+    ["RH & benefícios", ["Caju"]],
+    ["Telefonia", ["Salvy"]],
+    ["IA", ["Claude"]]
+  ],
+  "Vendas": [
+    ["CRM", ["HubSpot", "Salesforce"]],
+    ["Prospecção", ["Apollo", "Driva"]],
+    ["Telefonia & WhatsApp", ["Salvy"]],
+    ["Assinatura", ["ZapSign"]],
+    ["IA", ["Claude"]]
+  ],
+  "Marketing": [
+    ["Site", ["Framer", "Webflow"]],
+    ["E-mail", ["Resend", "Mailchimp"]],
+    ["Analytics", ["Google Analytics", "PostHog"]],
+    ["Design", ["Figma", "Canva"]],
+    ["Automação", ["n8n", "Zapier"]]
+  ],
+  "Produto": [
+    ["Design", ["Figma"]],
+    ["Roadmap", ["Linear"]],
+    ["Feature flags", ["Unleash", "LaunchDarkly"]],
+    ["Analytics", ["PostHog", "Metabase"]],
+    ["Autenticação", ["Clerk"]],
+    ["IA", ["Claude"]]
+  ],
+  "Engenharia": [
+    ["Repositório", ["GitHub"]],
+    ["CI/CD", ["GitHub Actions"]],
+    ["Infra", ["AWS", "Vercel"]],
+    ["Banco de dados", ["PostgreSQL", "Redis"]],
+    ["Observabilidade", ["Sentry", "Grafana"]],
+    ["IA", ["Claude Code", "Cursor"]]
+  ],
+  "CX": [
+    ["Atendimento", ["Intercom", "Zendesk"]],
+    ["Base de conhecimento", ["Notion"]],
+    ["Telefonia & WhatsApp", ["Salvy"]],
+    ["NPS & pesquisa", ["Typeform"]],
+    ["IA", ["Claude", "CloudHumans"]]
+  ],
+  "RH & Financeiro": [
+    ["Folha & benefícios", ["Caju", "Comp"]],
+    ["Contabilidade", ["Conta Simples"]],
+    ["Nota fiscal", ["NFE.io"]],
+    ["Assinatura", ["ZapSign"]],
+    ["Linhas & equipamentos", ["Salvy"]]
+  ]
+};
+
+const AREAS = ["Geral", "Vendas", "Marketing", "Produto", "Engenharia", "CX", "RH & Financeiro"];
+
+const INK = "#181410";
+const MUTED = "#807a7a";
+const NUDE = ["#F7F5F2", "#EDE9E2"];
+const CHIP_BORDER = "#E4DFD6";
+
+function slugOf(name) {
+  if (Object.prototype.hasOwnProperty.call(CATALOG, name)) return CATALOG[name];
+  return name.toLowerCase().replace(/\.(io|ai|com|br)$/, "").replace(/[^a-z0-9]/g, "");
+}
+
+function keyOf(name) {
+  const s = slugOf(name);
+  return s ? s : "x:" + name.toLowerCase().trim();
+}
+
+const LS_KEY = "salvy-stack-custom-logos";
+const LS_COMPANY = "salvy-stack-company-logo";
+
+const DOMAINS = {
+  "Kamino":"kamino.com.br","Conta Simples":"contasimples.com","Caju":"caju.com.br","NFE.io":"nfe.io",
+  "BigDataCorp":"bigdatacorp.com.br","NextCode":"nextcode.com.br","Comp":"usecomp.com","CloudHumans":"cloudhumans.com",
+  "Elephant.ai":"elephant.ai","Driva":"driva.io","ZapSign":"zapsign.com.br","Omie":"omie.com.br","Pipefy":"pipefy.com",
+  "Gupy":"gupy.io","Sólides":"solides.com.br","Flash":"flashapp.com.br","iugu":"iugu.com","Asaas":"asaas.com",
+  "Onfly":"onfly.com.br","Unleash":"getunleash.io","Apollo":"apollo.io","Gong":"gong.io","Aircall":"aircall.io",
+  "Knock":"knock.app","Vitally":"vitally.io","Chatwoot":"chatwoot.com","Make":"make.com","RD Station":"rdstation.com",
+  "Cursor":"cursor.com","Sankhya":"sankhya.com.br","Swile":"swile.co","QuickBooks":"quickbooks.intuit.com",
+  "Notion":"notion.so","Linear":"linear.app","Jira":"atlassian.com","Zoom":"zoom.us","Google Meet":"meet.google.com",
+  "AWS":"aws.amazon.com","Sentry":"sentry.io","Datadog":"datadoghq.com","Clerk":"clerk.com","Auth0":"auth0.com",
+  "Customer.io":"customer.io","Resend":"resend.com","Claude":"claude.com","Claude Code":"claude.com",
+  "ChatGPT":"openai.com","n8n":"n8n.io","Google Analytics":"analytics.google.com","Search Console":"search.google.com",
+  "Metabase":"metabase.com","Vitally":"vitally.io","Delighted":"delighted.com","Arrows":"arrows.to",
+  "Outreach":"outreach.io","Salesloft":"salesloft.com","Mintlify":"mintlify.com","CodeRabbit":"coderabbit.ai",
+  "Excalidraw":"excalidraw.com","Rebrandly":"rebrandly.com","Sprout Social":"sproutsocial.com",
+  "Jet Admin":"jetadmin.io","Callrox":"callrox.com.br","Pluggy":"pluggy.ai","Cora":"cora.com.br",
+  "ContaAzul":"contaazul.com","Stark Bank":"starkbank.com","WordPress":"wordpress.org"
+};
+
+const LINKEDIN = {
+  "Kamino":"kaminolatam","Conta Simples":"contasimples","NFE.io":"nfe-io","iugu":"iugu","Onfly":"onfly",
+  "BigDataCorp":"bigdatacorp","NextCode":"nextcodeoficial","Comp":"comp-ai-native-hr","Caju":"cajubeneficios",
+  "CloudHumans":"cloud-humans","Elephant.ai":"elephan-ai","Driva":"driva-tech","Resend":"resend",
+  "ZapSign":"zapsign-br","Salesforce":"salesforce","Slack":"tiny-spec-inc","Framer":"framer",
+  "Metabase":"metabasego","Rebrandly":"rebrandly","Notion":"notionhq","Excalidraw":"excalidraw",
+  "Sprout Social":"sprout-social-inc-"
+};
+
+const BUNDLED = {
+  "Salvy": "./assets/logos/salvy-y.svg",
+  "Caju": "./assets/logos/caju.png",
+  "Kamino": "./assets/logos/kamino.png",
+  "Conta Simples": "./assets/logos/conta-simples.png",
+  "Pipefy": "./assets/logos/pipefy.png",
+  "Asaas": "./assets/logos/asaas.png",
+  "CloudHumans": "./assets/logos/cloudhumans.png",
+  "Onfly": "./assets/logos/onfly.png",
+  "Chatwoot": "./assets/logos/chatwoot.png",
+  "Aircall": "./assets/logos/aircall.png",
+  "Mintlify": "./assets/logos/mintlify.png",
+  "CodeRabbit": "./assets/logos/coderabbit.png"
+};
+const WORDMARKS = {
+  "Caju": true, "Kamino": true, "Conta Simples": true, "Pipefy": true, "Asaas": true,
+  "CloudHumans": true, "Onfly": true
+};
+
+const FORMATS = [
+  { id: "auto", label: "Livre", h: 0 },
+  { id: "square", label: "1:1", h: 1080 },
+  { id: "portrait", label: "4:5", h: 1350 },
+  { id: "story", label: "Story", h: 1920 }
+];
+
+function domainOf(name) {
+  if (DOMAINS[name]) return DOMAINS[name];
+  return name.toLowerCase().replace(/\s+/g, "").replace(/[^a-z0-9.-]/g, "") + ".com";
+}
+
+function clone(area) {
+  return SEED[area].map(function (r) { return [r[0], r[1].slice()]; });
+}
+
+class Component extends DCLogic {
+  state = { area: "Geral", rows: clone("Geral"), drafts: {}, newLayer: "", title: "", subtitle: "", format: "auto", toast: "", tick: 0 };
+
+  logos = {};
+  pending = {};
+  canvasRef = React.createRef();
+
+  componentDidMount() {
+    const self = this;
+    const fonts = ["600 44px Poppins", "500 17px Inter", "400 16px Inter", "600 21px Poppins"];
+    Promise.all(fonts.map(function (f) { return document.fonts.load(f).catch(function () {}); }))
+      .then(function () { return document.fonts.ready.catch(function () {}); })
+      .then(function () { self.fontsReady = true; self.draw(); });
+    this.loadCustom();
+    this.ensureLogos();
+    this.draw();
+  }
+
+  loadCustom() {
+    const self = this;
+    let saved = {};
+    try { saved = JSON.parse(window.localStorage.getItem(LS_KEY) || "{}"); } catch (e) { saved = {}; }
+    this.custom = saved;
+    let company = null;
+    try { company = window.localStorage.getItem(LS_COMPANY); } catch (e) {}
+    if (company) {
+      const ci = new Image();
+      ci.onload = function () {
+        self.logos["__company"] = ci;
+        self.setState(function (s) { return { tick: s.tick + 1 }; });
+      };
+      ci.src = company;
+    }
+    Object.keys(saved).forEach(function (k) {
+      const im = new Image();
+      im.onload = function () {
+        self.logos[k] = im;
+        self.setState(function (s) { return { tick: s.tick + 1 }; });
+      };
+      im.src = saved[k];
+    });
+  }
+
+  saveCustom(key, dataUrl) {
+    const self = this;
+    this.custom = Object.assign({}, this.custom || {}, {});
+    this.custom[key] = dataUrl;
+    try { window.localStorage.setItem(LS_KEY, JSON.stringify(this.custom)); } catch (e) {}
+    const im = new Image();
+    im.onload = function () {
+      self.logos[key] = im;
+      self.setState(function (s) { return { tick: s.tick + 1 }; });
+    };
+    im.src = dataUrl;
+  }
+
+  componentDidUpdate() { this.ensureLogos(); this.draw(); }
+
+  toolNames() {
+    const out = [];
+    this.state.rows.forEach(function (r) { r[1].forEach(function (t) { out.push(t); }); });
+    return out;
+  }
+
+  ensureLogos() {
+    const self = this;
+    this.toolNames().forEach(function (name) {
+      const key = keyOf(name);
+      if (self.logos[key] !== undefined || self.pending[key]) return;
+      self.pending[key] = true;
+      const slug = slugOf(name);
+      const bundled = BUNDLED[name];
+      self.sources = self.sources || {};
+      const first = bundled
+        ? self.loadBundled(bundled)
+        : (slug ? self.loadSimpleIcon(slug) : Promise.resolve(null));
+      first
+        .then(function (img) {
+          if (img) { self.sources[key] = bundled ? "bundled" : "simpleicons"; return img; }
+          return self.loadFavicon(name).then(function (fav) {
+            if (fav) self.sources[key] = "favicon";
+            return fav;
+          });
+        })
+        .then(function (img) {
+          self.logos[key] = img || null;
+          self.setState(function (s) { return { tick: s.tick + 1 }; });
+        });
+    });
+  }
+
+  loadBundled(src) {
+    const self = this;
+    if (/\.svg$/i.test(src)) {
+      return fetch(src)
+        .then(function (r) { return r.text(); })
+        .then(function (t) { return self.svgToImage(t); })
+        .catch(function () { return null; });
+    }
+    return new Promise(function (res) {
+      const im = new Image();
+      im.onload = function () { res(im); };
+      im.onerror = function () { res(null); };
+      im.src = src;
+    });
+  }
+
+  loadSimpleIcon(slug) {
+    const self = this;
+    const url = slug === "__salvy"
+      ? "./assets/logo-salvy.svg"
+      : "https://cdn.jsdelivr.net/npm/simple-icons@13/icons/" + slug + ".svg";
+    return fetch(url)
+      .then(function (r) { if (!r.ok) throw new Error("404"); return r.text(); })
+      .then(function (txt) { return self.svgToImage(txt); })
+      .catch(function () { return null; });
+  }
+
+  loadFavicon(name) {
+    const self = this;
+    const src = "https://images.weserv.nl/?url=" +
+      encodeURIComponent("www.google.com/s2/favicons?domain=" + domainOf(name) + "&sz=256") + "&w=256&h=256&fit=inside";
+    return fetch(src)
+      .then(function (r) { if (!r.ok) throw new Error("no"); return r.blob(); })
+      .then(function (blob) {
+        return new Promise(function (res) {
+          const im = new Image();
+          const u = URL.createObjectURL(blob);
+          im.onload = function () { res(self.monochrome(im)); };
+          im.onerror = function () { res(null); };
+          im.src = u;
+        });
+      })
+      .catch(function () { return null; });
+  }
+
+  monochrome(img, sizeIn) {
+    try {
+      const size = sizeIn || 256;
+      const c = document.createElement("canvas");
+      c.width = size; c.height = size;
+      const x = c.getContext("2d");
+      const ar = (img.naturalWidth / img.naturalHeight) || 1;
+      let w = size, h = size;
+      if (ar > 1) h = size / ar; else w = size * ar;
+      x.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+      const d = x.getImageData(0, 0, size, size);
+      const px = d.data;
+      const at = function (cx, cy) { const i = (cy * size + cx) * 4; return [px[i], px[i + 1], px[i + 2], px[i + 3]]; };
+      const inset = Math.round((size - Math.min(w, h)) / 2) + 2;
+      const samples = [at(inset, inset), at(size - inset, inset), at(inset, size - inset), at(size - inset, size - inset)];
+      let bg = null;
+      const opaque = samples.filter(function (s) { return s[3] > 200; });
+      if (opaque.length === 4) {
+        const dist = function (a, b) { return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2]); };
+        if (opaque.every(function (s) { return dist(s, opaque[0]) < 40; })) bg = opaque[0];
+      }
+      let solid = 0, seen = 0;
+      for (let i = 0; i < px.length; i += 4) {
+        const a = px[i + 3];
+        if (a < 20) { px[i + 3] = 0; continue; }
+        seen++;
+        if (bg && Math.abs(px[i] - bg[0]) + Math.abs(px[i + 1] - bg[1]) + Math.abs(px[i + 2] - bg[2]) < 60) { px[i + 3] = 0; continue; }
+        const lum = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
+        if (lum > 236) { px[i + 3] = 0; continue; }
+        px[i] = 24; px[i + 1] = 20; px[i + 2] = 16;
+        px[i + 3] = a;
+        solid++;
+      }
+      if (solid < 60 || (seen && solid / seen > 0.82)) return null;
+
+      const alpha = new Uint8ClampedArray(size * size);
+      for (let i = 0, p = 0; i < px.length; i += 4, p++) alpha[p] = px[i + 3];
+      const grown = new Uint8ClampedArray(alpha);
+      for (let py = 0; py < size; py++) {
+        for (let pxi = 0; pxi < size; pxi++) {
+          if (alpha[py * size + pxi] > 140) continue;
+          let hit = 0;
+          for (let dy = -1; dy <= 1 && !hit; dy++) {
+            for (let dx = -1; dx <= 1; dx++) {
+              const ny = py + dy, nx = pxi + dx;
+              if (ny < 0 || nx < 0 || ny >= size || nx >= size) continue;
+              if (alpha[ny * size + nx] > 200) { hit = 1; break; }
+            }
+          }
+          if (hit) grown[py * size + pxi] = 255;
+        }
+      }
+      for (let i = 0, p = 0; i < px.length; i += 4, p++) {
+        if (grown[p] > alpha[p]) { px[i] = 24; px[i + 1] = 20; px[i + 2] = 16; px[i + 3] = grown[p]; }
+      }
+      x.putImageData(d, 0, 0);
+
+      let x0 = size, y0 = size, x1 = -1, y1 = -1;
+      for (let py = 0; py < size; py++) {
+        for (let pxi = 0; pxi < size; pxi++) {
+          if (px[(py * size + pxi) * 4 + 3] > 30) {
+            if (pxi < x0) x0 = pxi;
+            if (pxi > x1) x1 = pxi;
+            if (py < y0) y0 = py;
+            if (py > y1) y1 = py;
+          }
+        }
+      }
+      if (x1 < 0) return null;
+      const cw = x1 - x0 + 1, chh = y1 - y0 + 1;
+      let ink = 0;
+      for (let py = y0; py <= y1; py++) {
+        for (let pxi = x0; pxi <= x1; pxi++) if (px[(py * size + pxi) * 4 + 3] > 200) ink++;
+      }
+      if (ink / (cw * chh) < 0.1) return null;
+      const pad = Math.max(2, Math.round(Math.max(cw, chh) * 0.04));
+      const trim = document.createElement("canvas");
+      trim.width = cw + pad * 2;
+      trim.height = chh + pad * 2;
+      trim.getContext("2d").drawImage(c, x0, y0, cw, chh, pad, pad, cw, chh);
+      return new Promise(function (res) {
+        const out = new Image();
+        out.onload = function () { res(out); };
+        out.onerror = function () { res(null); };
+        out.src = trim.toDataURL("image/png");
+      });
+    } catch (e) { return null; }
+  }
+
+  svgToImage(text) {
+    let w = 24, h = 24;
+    const vb = /viewBox\s*=\s*"([^"]+)"/.exec(text);
+    if (vb) {
+      const p = vb[1].trim().split(/[\s,]+/).map(Number);
+      if (p.length === 4 && p[2] && p[3]) { w = p[2]; h = p[3]; }
+    }
+    let svg = text.replace(/<\?xml[^>]*\?>/, "").replace(/<svg/, '<svg width="' + w + '" height="' + h + '"');
+    svg = svg.replace(/fill\s*=\s*"(#fff|#ffffff|white)"/gi, 'fill="' + INK + '"');
+    if (!/\.st0\s*\{/.test(svg)) svg = svg.replace("<svg", "<svg");
+    const url = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg)));
+    return new Promise(function (res) {
+      const im = new Image();
+      im.decoding = "sync";
+      im.onload = function () { res(im); };
+      im.onerror = function () { res(null); };
+      im.src = url;
+    });
+  }
+
+  setCompany(dataUrl) {
+    const self = this;
+    if (!dataUrl) {
+      delete this.logos["__company"];
+      try { window.localStorage.removeItem(LS_COMPANY); } catch (e) {}
+      this.setState(function (s) { return { tick: s.tick + 1 }; });
+      return;
+    }
+    try { window.localStorage.setItem(LS_COMPANY, dataUrl); } catch (e) {}
+    const im = new Image();
+    im.onload = function () {
+      self.logos["__company"] = im;
+      self.setState(function (s) { return { tick: s.tick + 1 }; });
+    };
+    im.src = dataUrl;
+  }
+
+  autoTitle() {
+    const a = this.state.area;
+    if (a === "Geral") return "Nossa stack";
+    if (a === "RH & Financeiro") return "Stack de RH & Financeiro";
+    return "Stack de " + a;
+  }
+
+  roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  draw() {
+    const cv = this.canvasRef.current;
+    if (!cv) return;
+
+    const scale = 2;
+    const W = 1080, PAD = 64, INNER = 30, LABEL_W = 286;
+    const CHIP_H = 50, CHIP_GAP = 12, ROW_GAP = 14, ROW_MIN = 112, R = 20;
+    const LOGO_BOX = 24;
+
+    const rowsIn = this.state.rows.filter(function (r) { return r[1].length > 0; });
+    const m = document.createElement("canvas").getContext("2d");
+    m.font = "500 17px Inter, sans-serif";
+
+    const chipX = PAD + INNER + LABEL_W;
+    const availW = (W - PAD - INNER) - chipX;
+    const labelFont = "600 21px Poppins, sans-serif";
+
+    const rows = rowsIn.map((r) => {
+      const chips = r[1].map((t) => {
+        const img = this.logos[keyOf(t)] || null;
+        const tw = m.measureText(t).width;
+        const word = img && WORDMARKS[t] ? true : false;
+        let lw = 0, lhh = 0;
+        if (img) {
+          const ar = (img.naturalWidth / img.naturalHeight) || 1;
+          const box = word ? 26 : LOGO_BOX;
+          lhh = box; lw = box * ar;
+          const cap = box * (word ? 4.2 : 2.6);
+          if (lw > cap) { lw = cap; lhh = lw / ar; }
+        }
+        const label = word ? "" : t;
+        return {
+          name: label, img: img, lw: lw, lh: lhh, tw: word ? 0 : tw,
+          w: word ? lw + 36 : 18 + (img ? lw + 10 : 0) + tw + 20
+        };
+      });
+      let x = 0, lines = 1;
+      chips.forEach(function (c) {
+        if (x > 0 && x + c.w > availW) { lines++; x = 0; }
+        x += c.w + CHIP_GAP;
+      });
+      const h = Math.max(ROW_MIN, 32 + lines * CHIP_H + (lines - 1) * 10);
+      return { label: r[0], chips: chips, lines: lines, h: h };
+    });
+
+    const company = this.logos["__company"];
+    const headOff = company ? 0 : -48;
+    const bodyTop = 244 + headOff;
+    let bodyH = 0;
+    rows.forEach(function (r) { bodyH += r.h + ROW_GAP; });
+    const contentH = bodyTop + bodyH + 138;
+
+    const fmt = FORMATS.filter((f) => f.id === this.state.format)[0] || FORMATS[0];
+    const outH = fmt.h || contentH;
+    const fit = fmt.h ? Math.min(1, (outH - 40) / contentH) : 1;
+    const yOff = fmt.h ? (outH - contentH * fit) / 2 : 0;
+
+    cv.width = W * scale;
+    cv.height = outH * scale;
+    const ctx = cv.getContext("2d");
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 0, W, outH);
+    ctx.setTransform(scale * fit, 0, 0, scale * fit, 0, scale * yOff);
+    ctx.textBaseline = "alphabetic";
+
+    if (company) {
+      const ch = 44;
+      const cw = ch * (company.naturalWidth / company.naturalHeight || 1);
+      ctx.drawImage(company, PAD, 48, Math.min(cw, 300), ch * Math.min(1, 300 / cw));
+    }
+
+    ctx.fillStyle = INK;
+    ctx.font = "600 46px Poppins, sans-serif";
+    ctx.fillText(this.state.title.trim() || this.autoTitle(), PAD, 168 + headOff);
+    const sub = this.state.subtitle.trim() || this.props.defaultSubtitle || "As ferramentas que fazem o time andar";
+    if (sub) {
+      ctx.fillStyle = MUTED;
+      ctx.font = "400 18px Inter, sans-serif";
+      ctx.fillText(sub, PAD, 202 + headOff);
+    }
+
+    let y = bodyTop;
+    rows.forEach((row, i) => {
+      ctx.fillStyle = NUDE[i % 2];
+      this.roundRect(ctx, PAD, y, W - PAD * 2, row.h, R);
+      ctx.fill();
+
+      ctx.fillStyle = INK;
+      ctx.font = labelFont;
+      const words = row.label.split(" ");
+      let lineArr = [], cur = "";
+      words.forEach(function (w) {
+        const test = cur ? cur + " " + w : w;
+        if (ctx.measureText(test).width > LABEL_W - 20 && cur) { lineArr.push(cur); cur = w; }
+        else { cur = test; }
+      });
+      if (cur) lineArr.push(cur);
+      const lblH = lineArr.length * 28;
+      let ly = y + row.h / 2 - lblH / 2 + 21;
+      lineArr.forEach(function (l) { ctx.fillText(l, PAD + INNER, ly); ly += 28; });
+
+      const blockH = row.lines * CHIP_H + (row.lines - 1) * 10;
+      let cy = y + row.h / 2 - blockH / 2;
+      let cx = chipX;
+      row.chips.forEach((c) => {
+        if (cx > chipX && cx + c.w > chipX + availW) { cx = chipX; cy += CHIP_H + 10; }
+        ctx.fillStyle = "#FFFFFF";
+        this.roundRect(ctx, cx, cy, c.w, CHIP_H, 12);
+        ctx.fill();
+        ctx.strokeStyle = CHIP_BORDER;
+        ctx.lineWidth = 1;
+        this.roundRect(ctx, cx + 0.5, cy + 0.5, c.w - 1, CHIP_H - 1, 12);
+        ctx.stroke();
+        let tx = c.name ? cx + 18 : cx + (c.w - c.lw) / 2;
+        if (c.img) {
+          ctx.drawImage(c.img, tx, cy + (CHIP_H - c.lh) / 2, c.lw, c.lh);
+          tx += c.lw + 10;
+        }
+        if (c.name) {
+          ctx.fillStyle = INK;
+          ctx.font = "500 17px Inter, sans-serif";
+          ctx.fillText(c.name, tx, cy + CHIP_H / 2 + 6);
+        }
+        cx += c.w + CHIP_GAP;
+      });
+
+      y += row.h + ROW_GAP;
+    });
+
+    const fy = y + 30;
+    ctx.strokeStyle = "#EDE9E2";
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(PAD, fy);
+    ctx.lineTo(W - PAD, fy);
+    ctx.stroke();
+
+    const salvy = this.logos["__salvy"];
+    let textX = PAD;
+    if (salvy) {
+      const lh = 34;
+      const lw = lh * (salvy.naturalWidth / salvy.naturalHeight || 1);
+      ctx.drawImage(salvy, PAD, fy + 30, lw, lh);
+      textX = PAD + lw + 28;
+    }
+    ctx.textAlign = "left";
+    ctx.fillStyle = "#4f4a4a";
+    ctx.font = "500 16px Inter, sans-serif";
+    const tag = this.props.footerTagline || "A operadora dos times conectados: dados, ligações e WhatsApp Business inclusos.";
+    ctx.fillText(tag, textX, fy + 45);
+    ctx.fillStyle = MUTED;
+    ctx.font = "400 16px Inter, sans-serif";
+    ctx.fillText(this.props.footerLine2 || "Chip ou eSIM, sem burocracia, sem fidelidade.", textX, fy + 69);
+
+    ctx.textAlign = "right";
+    ctx.fillStyle = INK;
+    ctx.font = "600 17px Poppins, sans-serif";
+    ctx.fillText(this.props.site || "salvy.com.br", W - PAD, fy + 58);
+    ctx.textAlign = "left";
+
+    return cv;
+  }
+
+  flash(msg) {
+    const self = this;
+    this.setState({ toast: msg });
+    clearTimeout(this._t);
+    this._t = setTimeout(function () { self.setState({ toast: "" }); }, 2600);
+  }
+
+  caption() {
+    const a = this.state.area;
+    const abre = a === "Geral"
+      ? "Essa é a stack que faz o nosso time andar:"
+      : "Essa é a stack que faz o nosso time de " + a + " andar:";
+    const linhas = this.state.rows
+      .filter(function (r) { return r[1].length > 0; })
+      .map(function (r) { return r[0] + ": " + r[1].join(", "); });
+    const marcadas = [];
+    this.state.rows.forEach(function (r) {
+      r[1].forEach(function (t) {
+        if (LINKEDIN[t] && marcadas.indexOf(t) < 0) marcadas.push(t);
+      });
+    });
+    const out = [
+      abre,
+      "",
+      linhas.join("\n"),
+      "",
+      "As linhas, ligações e o WhatsApp Business do time rodam na Salvy — sem burocracia, sem fidelidade.",
+      "Monte a sua em salvy.com.br/stack"
+    ];
+    if (marcadas.length) {
+      out.push("", "Marcando quem faz acontecer:");
+      marcadas.forEach(function (t) {
+        out.push(t + " — linkedin.com/company/" + LINKEDIN[t]);
+      });
+    }
+    return out.join("\n");
+  }
+
+  fileName() {
+    return "stack-" + this.state.area.toLowerCase().replace(/[^a-z0-9]+/g, "-") + ".png";
+  }
+
+  renderVals() {
+    const self = this;
+    const setRows = function (fn) { self.setState(function (s) { return { rows: fn(s.rows) }; }); };
+
+    const addTool = function (layer) {
+      const val = (self.state.drafts[layer] || "").trim();
+      if (!val) return;
+      setRows(function (rows) {
+        return rows.map(function (r) {
+          if (r[0] !== layer) return r;
+          if (r[1].some(function (t) { return t.toLowerCase() === val.toLowerCase(); })) return r;
+          return [r[0], r[1].concat([val])];
+        });
+      });
+      self.setState(function (s) {
+        const d = Object.assign({}, s.drafts); d[layer] = ""; return { drafts: d };
+      });
+    };
+
+    return {
+      areas: AREAS.map(function (name) {
+        const on = name === self.state.area;
+        return {
+          name: name,
+          bg: on ? "#232323" : "#FFFFFF",
+          fg: on ? "#FFFFFF" : "#181410",
+          shadow: on ? "8px 8px 20px rgba(24,20,16,0.16)" : "-8px -8px 16px rgba(255,255,255,0.9), 8px 8px 16px rgba(24,20,16,0.06)",
+          select: function () { self.setState({ area: name, rows: clone(name), drafts: {}, title: "" }); }
+        };
+      }),
+      layers: self.state.rows.map(function (r) {
+        return {
+          name: r[0],
+          draft: self.state.drafts[r[0]] || "",
+          tools: r[1].map(function (t) {
+            const key = keyOf(t);
+            const img = self.logos[key] || null;
+            return {
+              name: t,
+              iconUrl: img ? img.src : "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+              hasLogo: img ? true : false,
+              uncertain: img && self.sources && self.sources[key] === "favicon" ? true : false,
+              icon: img ? React.createElement("img", { src: img.src, alt: "", style: { height: 15, width: "auto", maxWidth: 40, objectFit: "contain", display: "block" } }) : null,
+              needsLogo: img && !(self.sources && self.sources[key] === "favicon") ? false : true,
+              onLogo: function (e) {
+                const f = e.target.files && e.target.files[0];
+                if (!f) return;
+                const fr = new FileReader();
+                fr.onload = function () {
+                  const raw = String(fr.result);
+                  const im = new Image();
+                  im.onload = function () {
+                    Promise.resolve(self.monochrome(im, 256)).then(function (mono) {
+                      self.saveCustom(key, mono ? mono.src : raw);
+                    });
+                  };
+                  im.onerror = function () { self.saveCustom(key, raw); };
+                  im.src = raw;
+                };
+                fr.readAsDataURL(f);
+              },
+              remove: function () {
+                setRows(function (rows) {
+                  return rows.map(function (row) {
+                    return row[0] === r[0] ? [row[0], row[1].filter(function (x) { return x !== t; })] : row;
+                  });
+                });
+              }
+            };
+          }),
+          onDraft: function (e) {
+            const v = e.target.value;
+            self.setState(function (s) { const d = Object.assign({}, s.drafts); d[r[0]] = v; return { drafts: d }; });
+          },
+          onKey: function (e) { if (e.key === "Enter") { e.preventDefault(); addTool(r[0]); } },
+          onAdd: function () { addTool(r[0]); },
+          removeLayer: function () {
+            setRows(function (rows) { return rows.filter(function (row) { return row[0] !== r[0]; }); });
+          }
+        };
+      }),
+      suggestions: Object.keys(CATALOG),
+      title: self.state.title,
+      onTitle: function (e) { self.setState({ title: e.target.value }); },
+      subtitle: self.state.subtitle,
+      onSubtitle: function (e) { self.setState({ subtitle: e.target.value }); },
+      hasCompany: self.logos["__company"] ? true : false,
+      noCompany: self.logos["__company"] ? false : true,
+      companyPreview: self.logos["__company"]
+        ? React.createElement("img", { src: self.logos["__company"].src, alt: "", style: { height: 30, maxWidth: 150, objectFit: "contain", display: "block" } })
+        : null,
+      onCompany: function (e) {
+        const f = e.target.files && e.target.files[0];
+        if (!f) return;
+        const fr = new FileReader();
+        fr.onload = function () { self.setCompany(String(fr.result)); };
+        fr.readAsDataURL(f);
+      },
+      removeCompany: function () { self.setCompany(null); },
+      formats: FORMATS.map(function (f) {
+        const on = f.id === self.state.format;
+        return {
+          label: f.label,
+          bg: on ? "#232323" : "#FFFFFF",
+          fg: on ? "#FFFFFF" : "#181410",
+          select: function () { self.setState({ format: f.id }); }
+        };
+      }),
+      newLayer: self.state.newLayer,
+      onNewLayer: function (e) { self.setState({ newLayer: e.target.value }); },
+      onNewLayerKey: function (e) { if (e.key === "Enter") { e.preventDefault(); self.addNewLayer(); } },
+      addLayer: function () { self.addNewLayer(); },
+      reset: function () { self.setState({ rows: clone(self.state.area), drafts: {}, title: "" }); },
+      canvasRef: self.canvasRef,
+      toast: self.state.toast,
+      showCaption: self.state.showCaption ? true : false,
+      captionText: self.state.showCaption ? self.caption() : "",
+      hideCaption: function () { self.setState({ showCaption: false }); },
+      download: function () {
+        const cv = self.draw();
+        if (!cv) return;
+        const link = document.createElement("a");
+        link.download = self.fileName();
+        link.href = cv.toDataURL("image/png");
+        link.click();
+        self.flash("PNG baixado — manda ver no feed.");
+      },
+      copy: function () {
+        const cv = self.draw();
+        if (!cv || !navigator.clipboard || !window.ClipboardItem) { self.flash("Seu navegador não deixa copiar imagem — use Baixar PNG."); return; }
+        cv.toBlob(function (blob) {
+          navigator.clipboard.write([new window.ClipboardItem({ "image/png": blob })])
+            .then(function () { self.flash("Imagem copiada."); })
+            .catch(function () { self.flash("Não deu pra copiar — use Baixar PNG."); });
+        });
+      },
+      share: function () {
+        const txt = self.caption();
+        const done = function () { self.flash("Legenda copiada — cola no post e anexa o PNG."); };
+        self.setState({ showCaption: true });
+        const legacy = function () {
+          try {
+            const ta = document.createElement("textarea");
+            ta.value = txt;
+            ta.style.position = "fixed";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+            const ok = document.execCommand("copy");
+            document.body.removeChild(ta);
+            if (ok) { done(); return; }
+          } catch (e) {}
+          self.flash("Não deu pra copiar — selecione o texto manualmente.");
+        };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(txt).then(done).catch(legacy);
+        } else {
+          legacy();
+        }
+      }
+    };
+  }
+
+  addNewLayer() {
+    const name = this.state.newLayer.trim();
+    if (!name) return;
+    this.setState(function (s) {
+      if (s.rows.some(function (r) { return r[0].toLowerCase() === name.toLowerCase(); })) return { newLayer: "" };
+      return { rows: s.rows.concat([[name, []]]), newLayer: "" };
+    });
+  }
+}
+</script>
+</body>
+</html>

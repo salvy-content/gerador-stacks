@@ -162,13 +162,31 @@
 
   <footer style="background: #FFFFFF; border-top: 1px solid #EDE9E2; padding: 24px clamp(16px, 4vw, 32px);">
     <div style="max-width: 1320px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;">
-      <a href="https://salvy.com.br?utm_source=gerador-de-stack&utm_medium=footer" target="_blank" style="font-family: Poppins, sans-serif; font-weight: 500; font-size: 15px; color: #181410;">salvy.com.br</a>
+      <div style="display: flex; align-items: center; gap: 20px;">
+        <a href="https://salvy.com.br?utm_source=gerador-de-stack&utm_medium=footer" target="_blank" style="font-family: Poppins, sans-serif; font-weight: 500; font-size: 15px; color: #181410;">salvy.com.br</a>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <a href="https://www.instagram.com/usesalvy" target="_blank" title="Instagram" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 999px; border: 1px solid #EDE9E2; color: #4f4a4a; text-decoration: none; transition: box-shadow 200ms cubic-bezier(0.16,1,0.3,1);" style-hover="box-shadow: -8px -8px 20px #ffffff, 8px 8px 20px rgba(24,20,16,0.10); color: #181410;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5"></rect>
+              <circle cx="12" cy="12" r="4"></circle>
+              <line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
+            </svg>
+          </a>
+          <a href="https://www.linkedin.com/company/use-salvy" target="_blank" title="LinkedIn" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 999px; border: 1px solid #EDE9E2; color: #4f4a4a; text-decoration: none; transition: box-shadow 200ms cubic-bezier(0.16,1,0.3,1);" style-hover="box-shadow: -8px -8px 20px #ffffff, 8px 8px 20px rgba(24,20,16,0.10); color: #181410;">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V9h4v1.5"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </a>
+        </div>
+      </div>
       <span style="font-size: 13px; color: #807a7a;">© Salvy 2026 All Rights Reserved.</span>
     </div>
   </footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;footerTagline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;A operadora dos times conectados: dados, ligações e WhatsApp Business inclusos.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;footerLine2&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Chip ou eSIM, sem burocracia, sem fidelidade.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;site&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;salvy.com.br&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;defaultSubtitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;As ferramentas que fazem o time andar&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;footerTagline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;A operadora dos times conectados: dados, ligações e WhatsApp Business inclusos.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;footerLine2&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Chip ou eSIM, sem burocracia, sem fidelidade.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;site&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;salvy.com.br&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;defaultSubtitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;As ferramentas que fazem o time andar&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;qrTarget&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://salvy.com.br/?utm_source=stack-salvy&amp;utm_medium=social&amp;utm_campaign=&amp;utm_term=salvy&amp;utm_content=landing-page-stack&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
 const CATALOG = {
   "Salvy":"__salvy","Slack":"slack","Google Meet":"googlemeet","Zoom":"zoom","Notion":"notion","Linear":"linear",
   "Jira":"jira","Asana":"asana","Trello":"trello","ClickUp":"clickup","Confluence":"confluence","Miro":"miro",
@@ -261,6 +279,11 @@ function slugOf(name) {
   return name.toLowerCase().replace(/\.(io|ai|com|br)$/, "").replace(/[^a-z0-9]/g, "");
 }
 
+const CARRIERS = ["tim", "vivo", "claro", "fluke", "oi", "nextel", "algar", "correios"];
+function isCarrier(name) {
+  return CARRIERS.indexOf(name.toLowerCase().trim()) >= 0;
+}
+
 function keyOf(name) {
   const s = slugOf(name);
   return s ? s : "x:" + name.toLowerCase().trim();
@@ -268,6 +291,9 @@ function keyOf(name) {
 
 const LS_KEY = "salvy-stack-custom-logos";
 const LS_COMPANY = "salvy-stack-company-logo";
+const LS_STATE = "salvy-stack-state";
+const LS_QR = "salvy-stack-qr";
+const QR_TARGET = "https://salvy.com.br/?utm_source=stack-salvy&utm_medium=social&utm_campaign=&utm_term=salvy&utm_content=landing-page-stack";
 
 const DOMAINS = {
   "Kamino":"kamino.com.br","Conta Simples":"contasimples.com","Caju":"caju.com.br","NFE.io":"nfe.io",
@@ -345,9 +371,74 @@ class Component extends DCLogic {
     Promise.all(fonts.map(function (f) { return document.fonts.load(f).catch(function () {}); }))
       .then(function () { return document.fonts.ready.catch(function () {}); })
       .then(function () { self.fontsReady = true; self.draw(); });
+    this.loadBundled("./assets/logo-salvy.svg").then(function (img) {
+      if (!img) return;
+      self.logos["__wordmark"] = img;
+      self.setState(function (s) { return { tick: s.tick + 1 }; });
+    });
     this.loadCustom();
+    this.loadQr();
+    this.restoreState();
     this.ensureLogos();
     this.draw();
+  }
+
+  loadQr() {
+    const self = this;
+    const use = function (dataUrl) {
+      const im = new Image();
+      im.onload = function () {
+        self.logos["__qr"] = im;
+        self.setState(function (s) { return { tick: s.tick + 1 }; });
+      };
+      im.src = dataUrl;
+    };
+    let cached = null;
+    try { cached = window.localStorage.getItem(LS_QR); } catch (e) {}
+    if (cached) { use(cached); return; }
+    const url = "https://api.qrserver.com/v1/create-qr-code/?size=360x360&qzone=1&margin=0&color=181410&bgcolor=ffffff&data=" +
+      encodeURIComponent(this.props.qrTarget || QR_TARGET);
+    fetch(url)
+      .then(function (r) { if (!r.ok) throw new Error("qr"); return r.blob(); })
+      .then(function (blob) {
+        return new Promise(function (res, rej) {
+          const fr = new FileReader();
+          fr.onload = function () { res(String(fr.result)); };
+          fr.onerror = rej;
+          fr.readAsDataURL(blob);
+        });
+      })
+      .then(function (dataUrl) {
+        try { window.localStorage.setItem(LS_QR, dataUrl); } catch (e) {}
+        use(dataUrl);
+      })
+      .catch(function () {});
+  }
+
+  restoreState() {
+    let saved = null;
+    try { saved = JSON.parse(window.localStorage.getItem(LS_STATE) || "null"); } catch (e) {}
+    if (!saved || !Array.isArray(saved.rows) || !saved.rows.length) return;
+    const rows = saved.rows
+      .filter(function (r) { return Array.isArray(r) && typeof r[0] === "string" && Array.isArray(r[1]); })
+      .map(function (r) { return [r[0], r[1].filter(function (t) { return typeof t === "string"; })]; });
+    if (!rows.length) return;
+    this.setState({
+      area: AREAS.indexOf(saved.area) >= 0 ? saved.area : this.state.area,
+      rows: rows,
+      title: typeof saved.title === "string" ? saved.title : "",
+      subtitle: typeof saved.subtitle === "string" ? saved.subtitle : "",
+      format: FORMATS.some(function (f) { return f.id === saved.format; }) ? saved.format : "auto"
+    });
+  }
+
+  persistState() {
+    const s = this.state;
+    try {
+      window.localStorage.setItem(LS_STATE, JSON.stringify({
+        area: s.area, rows: s.rows, title: s.title, subtitle: s.subtitle, format: s.format
+      }));
+    } catch (e) {}
   }
 
   loadCustom() {
@@ -388,7 +479,7 @@ class Component extends DCLogic {
     im.src = dataUrl;
   }
 
-  componentDidUpdate() { this.ensureLogos(); this.draw(); }
+  componentDidUpdate() { this.persistState(); this.ensureLogos(); this.draw(); }
 
   toolNames() {
     const out = [];
@@ -611,6 +702,34 @@ class Component extends DCLogic {
     ctx.closePath();
   }
 
+  chipFor(t, m, LOGO_BOX) {
+    const img = this.logos[keyOf(t)] || null;
+    const tw = m.measureText(t).width;
+    const word = img && WORDMARKS[t] ? true : false;
+    let lw = 0, lhh = 0;
+    if (img) {
+      const ar = (img.naturalWidth / img.naturalHeight) || 1;
+      const box = word ? 26 : LOGO_BOX;
+      lhh = box; lw = box * ar;
+      const cap = box * (word ? 4.2 : 2.6);
+      if (lw > cap) { lw = cap; lhh = lw / ar; }
+    }
+    return {
+      name: word ? "" : t, img: img, lw: lw, lh: lhh, tw: word ? 0 : tw,
+      w: word ? lw + 36 : 18 + (img ? lw + 10 : 0) + tw + 20
+    };
+  }
+
+  rowFor(label, chips, availW, CHIP_H, CHIP_GAP, ROW_MIN) {
+    let x = 0, lines = 1;
+    chips.forEach(function (c) {
+      if (x > 0 && x + c.w > availW) { lines++; x = 0; }
+      x += c.w + CHIP_GAP;
+    });
+    const h = Math.max(ROW_MIN, 32 + lines * CHIP_H + (lines - 1) * 10);
+    return { label: label, chips: chips, lines: lines, h: h };
+  }
+
   draw() {
     const cv = this.canvasRef.current;
     if (!cv) return;
@@ -629,31 +748,23 @@ class Component extends DCLogic {
     const labelFont = "600 21px Poppins, sans-serif";
 
     const rows = rowsIn.map((r) => {
-      const chips = r[1].map((t) => {
-        const img = this.logos[keyOf(t)] || null;
-        const tw = m.measureText(t).width;
-        const word = img && WORDMARKS[t] ? true : false;
-        let lw = 0, lhh = 0;
-        if (img) {
-          const ar = (img.naturalWidth / img.naturalHeight) || 1;
-          const box = word ? 26 : LOGO_BOX;
-          lhh = box; lw = box * ar;
-          const cap = box * (word ? 4.2 : 2.6);
-          if (lw > cap) { lw = cap; lhh = lw / ar; }
+      const withNudge = [];
+      r[1].forEach(function (t) {
+        withNudge.push(t);
+        if (isCarrier(t)) withNudge.push("\u0000manda um Salvy");
+      });
+      const chips = withNudge.map((t0) => {
+        const nudge = t0.charAt(0) === "\u0000";
+        const t = nudge ? t0.slice(1) : t0;
+        if (nudge) {
+          m.font = "600 16px Poppins, sans-serif";
+          const nw = m.measureText(t).width;
+          m.font = "500 17px Inter, sans-serif";
+          return { name: t, img: null, lw: 0, lh: 0, tw: nw, w: nw + 40, nudge: true };
         }
-        const label = word ? "" : t;
-        return {
-          name: label, img: img, lw: lw, lh: lhh, tw: word ? 0 : tw,
-          w: word ? lw + 36 : 18 + (img ? lw + 10 : 0) + tw + 20
-        };
+        return this.chipFor(t, m, LOGO_BOX);
       });
-      let x = 0, lines = 1;
-      chips.forEach(function (c) {
-        if (x > 0 && x + c.w > availW) { lines++; x = 0; }
-        x += c.w + CHIP_GAP;
-      });
-      const h = Math.max(ROW_MIN, 32 + lines * CHIP_H + (lines - 1) * 10);
-      return { label: r[0], chips: chips, lines: lines, h: h };
+      return this.rowFor(r[0], chips, availW, CHIP_H, CHIP_GAP, ROW_MIN);
     });
 
     const company = this.logos["__company"];
@@ -661,7 +772,7 @@ class Component extends DCLogic {
     const bodyTop = 244 + headOff;
     let bodyH = 0;
     rows.forEach(function (r) { bodyH += r.h + ROW_GAP; });
-    const contentH = bodyTop + bodyH + 138;
+    const contentH = bodyTop + bodyH + 172;
 
     const fmt = FORMATS.filter((f) => f.id === this.state.format)[0] || FORMATS[0];
     const outH = fmt.h || contentH;
@@ -718,6 +829,17 @@ class Component extends DCLogic {
       let cx = chipX;
       row.chips.forEach((c) => {
         if (cx > chipX && cx + c.w > chipX + availW) { cx = chipX; cy += CHIP_H + 10; }
+        ctx.font = "500 17px Inter, sans-serif";
+        if (c.nudge) {
+          ctx.fillStyle = INK;
+          this.roundRect(ctx, cx, cy, c.w, CHIP_H, 12);
+          ctx.fill();
+          ctx.fillStyle = "#FFFFFF";
+          ctx.font = "600 16px Poppins, sans-serif";
+          ctx.fillText(c.name, cx + 20, cy + CHIP_H / 2 + 6);
+          cx += c.w + CHIP_GAP;
+          return;
+        }
         ctx.fillStyle = "#FFFFFF";
         this.roundRect(ctx, cx, cy, c.w, CHIP_H, 12);
         ctx.fill();
@@ -749,7 +871,7 @@ class Component extends DCLogic {
     ctx.lineTo(W - PAD, fy);
     ctx.stroke();
 
-    const salvy = this.logos["__salvy"];
+    const salvy = this.logos["__wordmark"];
     let textX = PAD;
     if (salvy) {
       const lh = 34;
@@ -766,10 +888,17 @@ class Component extends DCLogic {
     ctx.font = "400 16px Inter, sans-serif";
     ctx.fillText(this.props.footerLine2 || "Chip ou eSIM, sem burocracia, sem fidelidade.", textX, fy + 69);
 
-    ctx.textAlign = "right";
-    ctx.fillStyle = INK;
-    ctx.font = "600 17px Poppins, sans-serif";
-    ctx.fillText(this.props.site || "salvy.com.br", W - PAD, fy + 58);
+    const qr = this.logos["__qr"];
+    const site = this.props.site || "salvy.com.br";
+    if (qr) {
+      const qs = 92;
+      ctx.drawImage(qr, W - PAD - qs, fy + 24, qs, qs);
+    } else {
+      ctx.textAlign = "right";
+      ctx.fillStyle = INK;
+      ctx.font = "600 17px Poppins, sans-serif";
+      ctx.fillText(site, W - PAD, fy + 58);
+    }
     ctx.textAlign = "left";
 
     return cv;
